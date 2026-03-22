@@ -1,7 +1,8 @@
 import sqlite3
+import os
 from datetime import datetime
 
-DB_NAME = "/home/ubuntu/teacher_bot.db"
+DB_NAME = os.environ.get('DB_PATH', '/tmp/teacher_bot.db')
 
 def init_db():
     with sqlite3.connect(DB_NAME) as conn:
@@ -46,7 +47,7 @@ def increment_generation(user_id):
 def subscribe_user(user_id):
     with sqlite3.connect(DB_NAME) as conn:
         cursor = conn.cursor()
-        cursor.execute("UPDATE users SET is_subscribed = 1 WHERE user_id = ?", (user_id, user_id))
+        cursor.execute("UPDATE users SET is_subscribed = 1 WHERE user_id = ?", (user_id,))
         conn.commit()
 
 def check_access(user_id):
